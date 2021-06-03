@@ -8,6 +8,7 @@ package com.pe.view;
 import com.pe.piezas.Player;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ public class Gui extends javax.swing.JFrame {
     Player jugador1 = new Player("nombre1", "Azul");
     Player jugador2 = new Player("nombre2", "Rojo");
     int turno=1;
+    
     public Gui() {
         initComponents();
         rootPnl.setLayout(new GridLayout(5,5));
@@ -40,13 +42,20 @@ public class Gui extends javax.swing.JFrame {
             panel.add(pos, BorderLayout.PAGE_START);
             JPanel fichaPnl =new JPanel();
             fichaPnl.setBackground(new Color (25,25,200));
+            fichaPnl.setLayout(new GridLayout());
+            JLabel ficha1 =new JLabel();
+            JLabel ficha2 =new JLabel();
+            fichaPnl.add(ficha1);
+            fichaPnl.add(ficha2);
             panel.add(fichaPnl, BorderLayout.CENTER);
             rootPnl.add(panel);
             
         }
         System.out.println(rootPnl.getComponentCount());
     }
-    
+    public void moverse(){
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,6 +69,8 @@ public class Gui extends javax.swing.JFrame {
         rootPnl = new javax.swing.JPanel();
         controlsPnl = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,6 +99,8 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Ganador: ");
+
         javax.swing.GroupLayout controlsPnlLayout = new javax.swing.GroupLayout(controlsPnl);
         controlsPnl.setLayout(controlsPnlLayout);
         controlsPnlLayout.setHorizontalGroup(
@@ -95,13 +108,20 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(controlsPnlLayout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(jButton2)
-                .addContainerGap(546, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1)
+                .addGap(121, 121, 121))
         );
         controlsPnlLayout.setVerticalGroup(
             controlsPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlsPnlLayout.createSequentialGroup()
                 .addContainerGap(42, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addGroup(controlsPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addGap(33, 33, 33))
         );
 
@@ -119,25 +139,120 @@ public class Gui extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         if (turno%2==1){
+           int viejolugar=jugador1.getCasilla(); 
+           int lugar =jugador1.lanzarDado();
+           int dado= lugar-viejolugar;
+           jLabel2.setText(dado+" puntos");
+           
+           JPanel casilla= new JPanel();
+           JPanel casillavieja=new JPanel();
             
            if (turno>2){
-               rootPnl.getComponent(25-jugador1.getCasilla()).setBackground(new Color (25,25,200));
+               switch (viejolugar) {
+                case 4:
+                    casillavieja = (JPanel) rootPnl.getComponent(25-14);
+                    break;
+                case 8:
+                    casillavieja = (JPanel) rootPnl.getComponent(25-21);
+                    break;
+                case 13:
+                    casillavieja = (JPanel) rootPnl.getComponent(25-2);
+                    break;
+                case 21:
+                    casillavieja = (JPanel) rootPnl.getComponent(25-11);
+                    break;
+                default:
+                    casillavieja =(JPanel) rootPnl.getComponent(25-viejolugar);
+                    break;
+            }
+               JPanel casilla2 =  (JPanel) casillavieja.getComponent(1);
+               JLabel espacio1 = (JLabel) casilla2.getComponent(0);
+               espacio1.setIcon(null);
+               espacio1.revalidate();
            }
-           rootPnl.getComponent(25-jugador1.lanzarDado()).setBackground(Color.red);
+            switch (lugar) {
+                case 4:
+                    casilla = (JPanel) rootPnl.getComponent(25-14);
+                    break;
+                case 8:
+                    casilla = (JPanel) rootPnl.getComponent(25-21);
+                    break;
+                case 13:
+                    casilla = (JPanel) rootPnl.getComponent(25-2);
+                    break;
+                case 21:
+                    casilla = (JPanel) rootPnl.getComponent(25-11);
+                    break;
+                default:
+                    casilla =(JPanel) rootPnl.getComponent(25-lugar);
+                    break;
+            }
+            JPanel casilla2 =  (JPanel) casilla.getComponent(1);
+            JLabel espacio1 = (JLabel) casilla2.getComponent(0);
+            espacio1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/pe/icons/avatarbigote2.png")));
+            espacio1.revalidate();
+           
            
         }else{
+           int viejolugar=jugador2.getCasilla(); 
+           int lugar =jugador2.lanzarDado();
+           int dado= lugar-viejolugar;
+           jLabel2.setText(dado+" puntos");
+           
+           JPanel casilla= new JPanel();
+           JPanel casillavieja=new JPanel();
             if (turno>2){
-               rootPnl.getComponent(25-jugador2.getCasilla()).setBackground(new Color (25,25,200));
+               switch (viejolugar) {
+                case 4:
+                    casillavieja = (JPanel) rootPnl.getComponent(25-14);
+                    break;
+                case 8:
+                    casillavieja = (JPanel) rootPnl.getComponent(25-21);
+                    break;
+                case 13:
+                    casillavieja = (JPanel) rootPnl.getComponent(25-2);
+                    break;
+                case 21:
+                    casillavieja = (JPanel) rootPnl.getComponent(25-11);
+                    break;
+                default:
+                    casillavieja =(JPanel) rootPnl.getComponent(25-viejolugar);
+                    break;
+            }
+               JPanel casilla2 =  (JPanel) casillavieja.getComponent(1);
+               JLabel espacio1 = (JLabel) casilla2.getComponent(1);
+               espacio1.setIcon(null);
+               espacio1.revalidate();;
            }
           
-           rootPnl.getComponent(25-jugador2.lanzarDado()).setBackground(Color.yellow);
+            switch (lugar) {
+                case 4:
+                    casilla = (JPanel) rootPnl.getComponent(25-14);
+                    break;
+                case 8:
+                    casilla = (JPanel) rootPnl.getComponent(25-21);
+                    break;
+                case 13:
+                    casilla = (JPanel) rootPnl.getComponent(25-2);
+                    break;
+                case 21:
+                    casilla = (JPanel) rootPnl.getComponent(25-11);
+                    break;
+                default:
+                    casilla =(JPanel) rootPnl.getComponent(25-lugar);
+                    break;
+            }
+            JPanel casilla2 =  (JPanel) casilla.getComponent(1);
+            JLabel espacio1 = (JLabel) casilla2.getComponent(1);
+            espacio1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/pe/icons/avatarbigote3.png")));
+            espacio1.revalidate();
         }
         if (jugador1.getCasilla()==25){
-            System.out.println("Ganó nombre1");
+            jLabel1.setText("Ganador: nombre1");
             jButton2.setEnabled(false);
         }
         if (jugador2.getCasilla()==25){
-            System.out.println("Ganó nombre1");
+            jLabel1.setText("Ganador: nombre2");
             jButton2.setEnabled(false);
 
         }
@@ -182,6 +297,8 @@ public class Gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlsPnl;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel rootPnl;
     // End of variables declaration//GEN-END:variables
 }
